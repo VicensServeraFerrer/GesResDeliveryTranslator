@@ -44,7 +44,7 @@ app.post("/api/pedidos", upload.single("file"), (req, res) => {
   // 👉 Cabecera que viene del formulario (campo "headerText")
   const headerText =
     (req.body && req.body.headerText) ||
-    "Hola, os paso el pedido del Celler de Randa para esta semana:";
+    "Hola, os paso el pedido para esta semana:";
 
   const py = spawn("python", [
     path.join(__dirname, "pedido_transcriptor.py"),

@@ -7,16 +7,6 @@ from docx.oxml.ns import qn
 
 
 def add_hyperlink(paragraph, url, text, color="0000FF", underline=True):
-    """
-    Añade un hipervínculo clicable a un párrafo de python-docx.
-
-    paragraph: objeto docx.paragraph.Paragraph
-    url: enlace (string)
-    text: texto visible del enlace
-    color: color en hex (por defecto azul)
-    underline: True/False para subrayado
-    """
-    # Relación de hipervínculo en el documento
     part = paragraph.part
     r_id = part.relate_to(
         url,
@@ -139,7 +129,7 @@ def main():
     parser.add_argument(
         "--header-text",
         type=str,
-        default="Hola, os paso el pedido del Celler de Randa para esta semana:",
+        default="Hola, os paso el pedido para esta semana:",
         help="Texto de cabecera del mensaje",
     )
 
