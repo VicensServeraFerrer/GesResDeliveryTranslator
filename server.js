@@ -46,7 +46,7 @@ app.post("/api/pedidos", upload.single("file"), (req, res) => {
     (req.body && req.body.headerText) ||
     "Hola, os paso el pedido para esta semana:";
 
-  const py = spawn("python", [
+  const py = spawn("python3", [
     path.join(__dirname, "pedido_transcriptor.py"),
     "--input",
     inputPath,
