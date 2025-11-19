@@ -76,7 +76,7 @@ def generate_messages(
 
         for _, fila in datos.iterrows():
             producto = str(fila["Producto (auto)"])
-            cantidad = fila.get("Cantidad", "")
+            cantidad = int(fila.get("Cantidad", ""))
             unidad = fila.get("Unidad (auto)", "")
 
             # Cogemos el teléfono de la primera fila que tenga algo
