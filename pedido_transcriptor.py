@@ -51,7 +51,7 @@ def generate_messages(
     input_excel,
     output_file,
     sheet_name="Pedido",
-    header_row=6,
+    header_row=7,
     header_text="Hola, os paso el pedido del Celler de Randa para esta semana:",
 ):
     # Leer Excel
