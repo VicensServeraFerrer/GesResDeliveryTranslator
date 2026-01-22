@@ -51,9 +51,11 @@ def generate_messages(
     input_excel,
     output_file,
     sheet_name="Pedido",
-    header_row=7,
+    header_row=6,
     header_text="Hola, os paso el pedido del Celler de Randa para esta semana:",
 ):
+
+
     # Leer Excel
     df = pd.read_excel(input_excel, sheet_name=sheet_name, header=header_row)
 
