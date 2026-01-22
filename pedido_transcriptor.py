@@ -123,7 +123,7 @@ def main():
     parser.add_argument(
         "--header-row",
         type=int,
-        default=6,
+        default=7,
         help="Fila de cabecera (0-index, por defecto 6)",
     )
     parser.add_argument(
