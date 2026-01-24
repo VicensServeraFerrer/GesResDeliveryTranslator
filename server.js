@@ -39,14 +39,14 @@ app.post("/api/pedidos", upload.single("file"), (req, res) => {
   const outputPath = path.join(outputsDir, outputFilename);
 
   const sheetName = "Pedido";
-  const headerRow = 6;
+  const headerRow = 7;
 
   // 👉 Cabecera que viene del formulario (campo "headerText")
   const headerText =
     (req.body && req.body.headerText) ||
     "Hola, os paso el pedido para esta semana:";
 
-  const py = spawn("python3", [
+  const py = spawn("C:\\Users\\Usuario\\AppData\\Local\\Programs\\Python\\Python311\\python.exe", [
     path.join(__dirname, "pedido_transcriptor.py"),
     "--input",
     inputPath,
@@ -57,14 +57,19 @@ app.post("/api/pedidos", upload.single("file"), (req, res) => {
     "--header-row",
     headerRow.toString(),
     "--header-text",
-    headerText
-  ]);
+    headerText,
+  ],);
 
   let stderr = "";
 
   py.stderr.on("data", (data) => {
     stderr += data.toString();
     console.error(data.toString());
+  });
+
+  py.stdout.on("data", (data) => {
+    console.log(data);        // <Buffer 48 6f 6c 61 0a>
+    console.log(data.toString()); // "Hola\n"
   });
 
   py.on("close", (code) => {
