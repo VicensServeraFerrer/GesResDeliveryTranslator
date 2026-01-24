@@ -46,7 +46,7 @@ app.post("/api/pedidos", upload.single("file"), (req, res) => {
     (req.body && req.body.headerText) ||
     "Hola, os paso el pedido para esta semana:";
 
-  const py = spawn("C:\\Users\\Usuario\\AppData\\Local\\Programs\\Python\\Python311\\python.exe", [
+  const py = spawn("python3", [
     path.join(__dirname, "pedido_transcriptor.py"),
     "--input",
     inputPath,
