@@ -4,84 +4,8 @@
   <meta charset="UTF-8" />
   <title>Generador de mensajes de pedidos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f4f5f7;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      min-height: 100vh;
-      align-items: center;
-      justify-content: center;
-    }
-    .card {
-      background: #ffffff;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      max-width: 480px;
-      width: 100%;
-    }
-    h1 {
-      font-size: 1.5rem;
-      margin-top: 0;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      margin-top: 0;
-      color: #555;
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-    input[type="file"],
-    textarea {
-      display: block;
-      width: 100%;
-      margin-bottom: 1rem;
-      font-size: 0.95rem;
-      font-family: inherit;
-      box-sizing: border-box;
-    }
-    textarea {
-      min-height: 70px;
-      resize: vertical;
-      padding: 0.4rem 0.5rem;
-    }
-    button {
-      border: none;
-      border-radius: 999px;
-      padding: 0.6rem 1.4rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      background: #4caf50;
-      color: #fff;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    button[disabled] {
-      opacity: 0.6;
-      cursor: default;
-    }
-    .status {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      min-height: 1.1rem;
-    }
-    .status.ok {
-      color: #2e7d32;
-    }
-    .status.error {
-      color: #c62828;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/style.css">
+  
 </head>
 <body>
   <div class="card">
@@ -102,71 +26,8 @@
         <span>Generar mensajes</span>
       </button>
     </form>
-
+    <script src="/js/form.js"></script>
     <div id="status" class="status"></div>
   </div>
-
-  <script>
-    const form = document.getElementById("uploadForm");
-    const statusEl = document.getElementById("status");
-    const button = form.querySelector("button");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      statusEl.textContent = "";
-      statusEl.className = "status";
-
-      const fileInput = document.getElementById("file");
-      const headerInput = document.getElementById("headerText");
-
-      if (!fileInput.files.length) {
-        statusEl.textContent = "Selecciona un archivo primero.";
-        statusEl.classList.add("error");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("file", fileInput.files[0]);
-      formData.append("headerText", headerInput.value || "");
-
-      button.disabled = true;
-      button.querySelector("span").textContent = "Generando...";
-
-      try {
-        const resp = await fetch("/api/pedidos", {
-          method: "POST",
-          body: formData
-        });
-
-        if (!resp.ok) {
-          let msg = "Error al generar el documento.";
-          try {
-            const data = await resp.json();
-            if (data.error) msg = data.error;
-          } catch (_) {}
-          throw new Error(msg);
-        }
-
-        const blob = await resp.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "mensajes_pedidos.docx";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-
-        statusEl.textContent = "Documento generado correctamente. Revisa tus descargas.";
-        statusEl.classList.add("ok");
-      } catch (err) {
-        statusEl.textContent = err.message;
-        statusEl.classList.add("error");
-      } finally {
-        button.disabled = false;
-        button.querySelector("span").textContent = "Generar mensajes";
-      }
-    });
-  </script>
 </body>
 </html>

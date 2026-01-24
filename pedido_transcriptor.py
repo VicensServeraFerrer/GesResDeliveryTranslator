@@ -1,75 +1,35 @@
 import argparse
 import pandas as pd
+from utils.add_hyperlink import add_hyperlink
 from urllib.parse import quote
 from docx import Document
-from docx.oxml import OxmlElement
-from docx.oxml.ns import qn
-
-
-def add_hyperlink(paragraph, url, text, color="0000FF", underline=True):
-    part = paragraph.part
-    r_id = part.relate_to(
-        url,
-        "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink",
-        is_external=True,
-    )
-
-    # <w:hyperlink r:id="...">
-    hyperlink = OxmlElement("w:hyperlink")
-    hyperlink.set(qn("r:id"), r_id)
-
-    # <w:r>
-    new_run = OxmlElement("w:r")
-    rPr = OxmlElement("w:rPr")
-
-    # Color
-    color_el = OxmlElement("w:color")
-    color_el.set(qn("w:val"), color)
-    rPr.append(color_el)
-
-    # Subrayado
-    if underline:
-        u = OxmlElement("w:u")
-        u.set(qn("w:val"), "single")
-        rPr.append(u)
-
-    new_run.append(rPr)
-
-    # Texto del enlace
-    t = OxmlElement("w:t")
-    t.text = text
-    new_run.append(t)
-
-    # Lo enganchamos todo
-    hyperlink.append(new_run)
-    paragraph._p.append(hyperlink)
-
-    return paragraph
-
 
 def generate_messages(
     input_excel,
     output_file,
     sheet_name="Pedido",
-    header_row=6,
+    header_row=7,
     header_text="Hola, os paso el pedido del Celler de Randa para esta semana:",
 ):
+    df = pd.read_excel(input_excel,sheet_name=sheet_name, header=None)
 
+    # Search header and cut dataframe
+    start_row = df[df.eq("Proveedor (auto)").any(axis=1)].index[0]
+    df = df.iloc[start_row:].reset_index(drop=True)
 
-    # Leer Excel
-    df = pd.read_excel(input_excel, sheet_name=sheet_name, header=header_row)
+    # Use cell as header
+    df.columns = df.iloc[0]
+    df = df.iloc[1:].reset_index(drop=True)
 
-    # Filtrar filas válidas
+    # Filtrate empty rows
     df = df.dropna(subset=["Proveedor (auto)", "Producto (auto)"])
 
-    # Opcional: filtrar cantidades 0 o NaN
-    if "Cantidad" in df.columns:
-        df = df[df["Cantidad"].fillna(0) != 0]
+    #Filtrate Cantidad 
+    df["Cantidad"] = (pd.to_numeric(df["Cantidad"], errors="coerce"))
+    df = df[df["Cantidad"].fillna(0) != 0]
 
-    # Agrupar por proveedor
     grupos = df.groupby("Proveedor (auto)")
 
-    # Crear documento Word
     doc = Document()
 
     for proveedor, datos in grupos:
