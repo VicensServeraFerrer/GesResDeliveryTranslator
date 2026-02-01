@@ -1,14 +1,33 @@
 // routes/health.js
 import 'dotenv/config.js'
 import express from "express"
-import { pool } from "../db.js"
-const healthRouter = express.Router()
+import { sequelize } from '../models/index.js'
+const initDB = express.Router()
 
-healthRouter.get('/db', async (req, res) => {
+initDB.get('/db_test', async (req, res) => {
   try {
-    const r = await pool.query('SELECT 1 AS ok')
-    res.json({ ok: true, db: r.rows[0].ok })
-  } catch (err) {
+    await sequelize.authenticate()
+    console.log("✅ DB connected");
+  } catch {
+    console.error('DB query error full:', err) // <- clave
+    res.status(500).json({
+      ok: false,
+      message: err.message,
+      code: err.code,
+      errno: err.errno,
+      syscall: err.syscall,
+      address: err.address,
+      port: err.port
+    })
+  }
+})
+
+initDB.get('/init', async (req, res) => {
+  try {
+    const table = "users"
+    const desc = await sequelize.getQueryInterface().describeTable(table);
+    res.json(desc)
+  } catch {
     console.error('DB query error full:', err) // <- clave
     res.status(500).json({
       ok: false,
@@ -23,4 +42,5 @@ healthRouter.get('/db', async (req, res) => {
 })
 
 
-export default healthRouter
+
+export default initDB
