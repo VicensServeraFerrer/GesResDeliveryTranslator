@@ -10,16 +10,17 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 import express from 'express'
 import cors from 'cors'
 import pedidoRouter from './routes/pedido.js'
-import healthRouter from './routes/health.js'
-
+import initDB from './routes/health.js';
+import gumroadRouter from './routes/purchase_gumroad.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/health", healthRouter);
+app.use("/db", initDB);
 app.use("/pedidos", pedidoRouter);
+app.use("/purchase", gumroadRouter);
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
