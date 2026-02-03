@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Generador de mensajes de pedidos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/css/style.css">
+  
+</head>
+<body>
+  <div class="card">
+    <h1>Generador de mensajes de pedidos</h1>
+
+    <form id="uploadForm">
+      <label for="file">Archivo de pedidos (.xlsx)</label>
+      <input type="file" id="file" name="file" accept=".xlsx,.xls" required />
+
+      <label for="headerText">Cabecera del mensaje</label>
+      <textarea
+        id="headerText"
+        name="headerText"
+        placeholder="Hola, os paso el pedido para esta semana:"
+      ></textarea>
+
+      <button type="submit">
+        <span>Generar mensajes</span>
+      </button>
+    </form>
+    <script src="/js/form.js"></script>
+    <div id="status" class="status"></div>
+  </div>
+</body>
+</html>
