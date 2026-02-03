@@ -12,13 +12,13 @@
     statusEl.textContent = "Creando sesión…";
 
     // Backend recomendado: POST /api/auth/magic/exchange { token }
-    await apiFetch("/api/auth/magic/exchange", {
+    await apiFetch("/validate/magic/exchange", {
       method: "POST",
       body: JSON.stringify({ token }),
     });
 
     // Validación extra (opcional): comprobar suscripción
-    const sub = await apiFetch("/api/subscription/status", { method: "GET" });
+    const sub = await apiFetch("/validate/subscription/status", { method: "GET" });
     if (!sub || sub.active !== true) {
       location.replace("/expired.html?reason=sub");
       return;
