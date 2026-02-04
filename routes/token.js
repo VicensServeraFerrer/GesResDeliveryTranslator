@@ -1,6 +1,8 @@
 import 'dotenv/config.js'
 import express from "express"
 import { signJwt } from '../helpers/jwt.js'
+import { sha256 } from '../helpers/encrypt.js'
+import { isSubscriptionActive } from '../helpers/check_subs.js'
 import { sequelize } from '../models/index.js'
 
 const tokenRouter = express.Router()
