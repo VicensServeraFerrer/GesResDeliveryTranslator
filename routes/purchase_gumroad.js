@@ -15,7 +15,7 @@ gumroadRouter.post("/ping", async (req, res) => {
   // Ejemplos de campos que suelen venir:
   // payload.email, payload.product_id, payload.sale_id, payload.license_key, payload.url_params, etc.
   // (Depende del tipo de producto/venta)
-  console.log("GUMROAD PING:", payload.seller_id);
+  console.log("GUMROAD PING:", payload);
 
   // 1) Identifica al usuario interno (idealmente por payload.url_params.user_id)
   // 2) Upsert Customer
