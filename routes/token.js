@@ -3,21 +3,26 @@ import express from "express"
 import { signJwt } from '../helpers/jwt.js'
 import { sha256 } from '../helpers/encrypt.js'
 import { isSubscriptionActive } from '../helpers/check_subs.js'
+import { requireAuth } from '../helpers/authSession.js'
+import { AccessToken, User } from '../models/index.js'
+import { Op } from 'sequelize'
 import { sequelize } from '../models/index.js'
 
 const tokenRouter = express.Router()
 
-tokenRouter.get("/session", async (req, res) =>{
+tokenRouter.get("/suscription/status", requireAuth, async (req, res) =>{
+    const sub = await isSubscriptionActive(req.userId);
 
+    if (!sub) {
+        return res.json({active: false})
+    }
+
+    return res.json({active: true})
 })
 
-tokenRouter.get("/suscription/status", async (req, res) =>{
-    
-})
-
-tokenRouter.get("/magic/exchange", async (req, res) =>{
+tokenRouter.post("/magic/exchange", async (req, res) =>{
     // 1) token viene del frontend
-    const { token } = req.body;
+    const token = req.body.token;
 
     // 2) tokenHash
     const tokenHash = sha256(token);
@@ -45,3 +50,5 @@ tokenRouter.get("/magic/exchange", async (req, res) =>{
 
     return res.json({ ok: true });
 })
+
+export default tokenRouter;

@@ -12,17 +12,24 @@
     statusEl.textContent = "Creando sesión…";
 
     // Backend recomendado: POST /api/auth/magic/exchange { token }
-    await apiFetch("/validate/magic/exchange", {
+    const isTokenOk = await apiFetch("/validate/magic/exchange", {
       method: "POST",
-      body: JSON.stringify({ token }),
+      body: JSON.stringify({"token": token }),
     });
 
-    // Validación extra (opcional): comprobar suscripción
-    const sub = await apiFetch("/validate/subscription/status", { method: "GET" });
-    if (!sub || sub.active !== true) {
-      location.replace("/expired.html?reason=sub");
+    if(!isTokenOk || isTokenOk.ok !== true){
       return;
     }
+
+    // Validación extra (opcional): comprobar suscripción
+    // const sub = await apiFetch("/validate/subscription/status", { 
+    //   method: "POST",
+    //   body: JSON.stringify({ token })
+    // });
+    // if (!sub || sub.active !== true) {
+    //   location.replace("/expired.html?reason=sub");
+    //   return;
+    // }
 
     location.replace("/app/order.html");
   } catch (e) {
