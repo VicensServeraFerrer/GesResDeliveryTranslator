@@ -1,33 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Generador de mensajes de pedidos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/css/style.css">
-  
+  <title>ResGes - Pedidos</title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
   <div class="card">
-    <h1>Generador de mensajes de pedidos</h1>
+    <h1>Pedidos fáciles para tu negocio</h1>
+    <p>Sube tu Excel y genera los mensajes listos para enviar a proveedores.</p>
 
-    <form id="uploadForm">
-      <label for="file">Archivo de pedidos (.xlsx)</label>
-      <input type="file" id="file" name="file" accept=".xlsx,.xls" required />
+    <a id="buyBtn" class="btn" href="#" target="_blank" rel="noreferrer">
+      Comprar acceso
+    </a>
 
-      <label for="headerText">Cabecera del mensaje</label>
-      <textarea
-        id="headerText"
-        name="headerText"
-        placeholder="Hola, os paso el pedido para esta semana:"
-      ></textarea>
-
-      <button type="submit">
-        <span>Generar mensajes</span>
-      </button>
-    </form>
-    <script src="/js/form.js"></script>
-    <div id="status" class="status"></div>
+    <p style="margin-top:12px;opacity:.8">
+      ¿Ya tienes link de acceso? Ábrelo y entrarás directo.
+    </p>
   </div>
+
+  <script src="/js/env.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.getElementById("buyBtn").href = window.ENV.GUMROAD_PRODUCT_URL;
+  </script>
 </body>
 </html>

@@ -14,11 +14,11 @@ User.hasOne(AccessToken, {
 AccessToken.belongsTo(User, { foreignKey: "userId" });
 
 // User *..1 Customer  (un User tiene muchos Customers; cada Customer pertenece a un User)
-User.hasMany(Customer, {
-  foreignKey: { name: "userId", allowNull: false },
+Customer.hasMany(User, {
+  foreignKey: { name: "userId", allowNull: true },
   onDelete: "CASCADE",
 });
-Customer.belongsTo(User, { foreignKey: "userId" });
+User.belongsTo(Customer, { foreignKey: "customerId" });
 
 // Customer 1..* Subscription
 Customer.hasMany(Subscription, {

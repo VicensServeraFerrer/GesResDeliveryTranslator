@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suscripción caducada</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="card">
+    <h1>Acceso no disponible</h1>
+    <p id="msg">Tu suscripción no está activa o el enlace no es válido.</p>
+
+    <a id="renewBtn" class="btn" href="#" target="_blank" rel="noreferrer">Renovar</a>
+    <div style="height:10px"></div>
+    <a class="btn" href="/">Volver al inicio</a>
+  </div>
+
+  <script src="/js/env.js"></script>
+  <script>
+    document.getElementById("renewBtn").href = window.ENV.GUMROAD_PRODUCT_URL;
+
+    const reason = new URLSearchParams(location.search).get("reason");
+    if (reason === "token") document.getElementById("msg").textContent = "El enlace ha caducado o ya no es válido.";
+    if (reason === "sub") document.getElementById("msg").textContent = "Tu suscripción está caducada. Renueva para continuar.";
+  </script>
+</body>
+</html>
