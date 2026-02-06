@@ -1,8 +1,9 @@
 import 'dotenv/config.js'
 import express from "express"
-import { AccessToken, Customer, User, Subscription } from '../models/index.js'
+import { AccessToken, Customer, User, Subscription, Plan } from '../models/index.js'
 import { requireAuthAPI } from '../helpers/authSession.js';
 import { create_token, sha256 } from '../helpers/encrypt.js';
+import { getEndDate } from '../helpers/getEndDate.js';
 
 const gumroadRouter = express.Router()
 
@@ -35,7 +36,27 @@ gumroadRouter.post("/ping", async (req, res) => {
       }
     );
 
+    const plan = Plan.findOne({where: {code: payload.recurence}});
 
+    Subscription.create({
+      customerId: customer.id,
+      planId: plan.id,
+      paid: true,
+      gumroadSaleId: payload.sale_id,
+      ammount: payload.price,
+      startedAt: new Date(),
+      endsAt: getEndDate(plan.code),
+    });
+
+    const token = create_token()
+
+    const accesToken = AccessToken.create({
+      tokenHash: sha256(token),
+      expiresAt: getEndDate(plan.code),
+      user_id: user.id,
+    });
+
+    
   } catch (err) {
     
   }
