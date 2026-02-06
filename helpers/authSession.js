@@ -1,7 +1,7 @@
 import 'dotenv/config.js'
 import jwt from "jsonwebtoken";
 
-export function requireAuth(req, res, next) {
+export function requireAuthAPI(req, res, next) {
   const token = req.cookies?.access;
 
   if (!token) {
@@ -16,3 +16,24 @@ export function requireAuth(req, res, next) {
     return res.status(401).json({ ok: false, error: "INVALID_SESSION" });
   }
 }
+
+export function autAuth(req, res, next) {
+  const token = req.cookies?.access;
+
+  if (!token) {
+    return res.redirect(`/index.html`);
+  }
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+
+    if(!isAppUser(payload.userId)){
+      return res.redirect(`/index.html`);
+    }
+
+    next();
+  } catch (err) {
+    return res.status(401).json({ ok: false, error: "INVALID_SESSION" });
+  }
+}
+

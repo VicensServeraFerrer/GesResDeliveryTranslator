@@ -1,7 +1,7 @@
 import 'dotenv/config.js'
 import express from "express"
 import { AccessToken, sequelize } from '../models/index.js'
-import { requireAuth } from '../helpers/authSession.js';
+import { requireAuthAPI } from '../helpers/authSession.js';
 import { create_token, sha256 } from '../helpers/encrypt.js';
 
 const gumroadRouter = express.Router()
