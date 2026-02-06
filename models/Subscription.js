@@ -16,7 +16,7 @@ Subscription.init(
 
     // Para decidir si “tiene acceso”
     paid: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
-    ammount: { type: DataTypes.NUMBER, allowNull: true },
+    ammount: { type: DataTypes.FLOAT, allowNull: true },
     startedAt: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
     endsAt: { type: DataTypes.DATE, allowNull: true }, // null = indefinida (lifetime)
     canceledAt: { type: DataTypes.DATE, allowNull: true },
