@@ -30,8 +30,10 @@ gumroadRouter.post("/ping", async (req, res) => {
       customerId: customer.id
     });
 
+    console.log(user)
+    
     await Customer.update(
-      { userId: user.userId },
+      { userId: user.id },
       {
         where: { id: customer.id }
       }
