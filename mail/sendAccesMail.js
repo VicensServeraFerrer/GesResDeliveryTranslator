@@ -1,7 +1,7 @@
 import { mailer } from "./mailer.js";
 
 export async function sendAccessMail({ to, accessLink, planName }) {
-  await mailer.sendMail({
+  return await mailer.sendMail({
     from: process.env.MAIL_FROM,
     to,
     subject: "Accés activat a la plataforma",
