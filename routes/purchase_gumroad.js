@@ -30,16 +30,16 @@ gumroadRouter.post("/ping", async (req, res) => {
       customerId: customer.id
     });
 
-    Customer.update(
+    await Customer.update(
       { userId: user.userId },
       {
         where: { id: customer.id }
       }
     );
 
-    const plan = Plan.findOne({where: {code: payload.recurence}});
+    const plan = await Plan.findOne({where: {code: payload.recurence}});
 
-    Subscription.create({
+    await Subscription.create({
       customerId: customer.id,
       planId: plan.id,
       paid: true,
@@ -51,15 +51,17 @@ gumroadRouter.post("/ping", async (req, res) => {
 
     const token = create_token()
 
-    const accesToken = AccessToken.create({
+    const accesToken = await AccessToken.create({
       tokenHash: sha256(token),
       expiresAt: getEndDate(plan.code),
       user_id: user.id,
     });
 
-    
+    await sendAccessMail({to: payload.email, planName: plan.code, accessLink: token});
+
+    return res.status(200);    
   } catch (err) {
-    
+    console.log(err);
   }
   // Ejemplos de campos que suelen venir:
   // payload.email, payload.product_id, payload.sale_id, payload.license_key, payload.url_params, etc.
