@@ -27,15 +27,15 @@ gumroadRouter.post("/ping", async (req, res) => {
     const user = await User.create({
       email: payload.email,
       status: 'active',
-      customerId: customer.id
+      customerId: customer.dataValues.id
     });
 
     console.log(user)
     
     await Customer.update(
-      { userId: user.id },
+      { userId: user.dataValues.id },
       {
-        where: { id: customer.id }
+        where: { id: customer.dataValues.id }
       }
     );
 
@@ -43,7 +43,7 @@ gumroadRouter.post("/ping", async (req, res) => {
 
     await Subscription.create({
       customerId: customer.id,
-      planId: plan.id,
+      planId: plan.dataValues.id,
       paid: true,
       gumroadSaleId: payload.sale_id,
       ammount: payload.price,
@@ -59,7 +59,7 @@ gumroadRouter.post("/ping", async (req, res) => {
       user_id: user.id,
     });
 
-    await sendAccessMail({to: payload.email, planName: plan.code, accessLink: token});
+    await sendAccessMail({to: payload.email, planName: plan.dataValues.code, accessLink: token});
 
     return res.status(200);    
   } catch (err) {
