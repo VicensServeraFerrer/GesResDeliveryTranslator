@@ -42,7 +42,7 @@ gumroadRouter.post("/ping", async (req, res) => {
     const plan = await Plan.findOne({where: {code: payload.recurrence}});
 
     await Subscription.create({
-      customerId: customer.id,
+      customerId: customer.dataValues.id,
       planId: plan.dataValues.id,
       paid: true,
       gumroadSaleId: payload.sale_id,
@@ -56,7 +56,7 @@ gumroadRouter.post("/ping", async (req, res) => {
     const accesToken = await AccessToken.create({
       tokenHash: sha256(token),
       expiresAt: getEndDate(plan.code),
-      user_id: user.dataValues.id,
+      userId: user.dataValues.id,
     });
 
     await sendAccessMail({to: payload.email, planName: plan.dataValues.code, accessLink: token});
