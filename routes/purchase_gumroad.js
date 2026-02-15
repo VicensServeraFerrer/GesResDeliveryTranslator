@@ -26,7 +26,7 @@ gumroadRouter.post("/ping", async (req, res) => {
 
     const user = await User.create({
       email: payload.email,
-      status: 'avtive',
+      status: 'active',
       customerId: customer.id
     });
 
