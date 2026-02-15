@@ -37,7 +37,7 @@ gumroadRouter.post("/ping", async (req, res) => {
       }
     );
 
-    const plan = await Plan.findOne({where: {code: payload.recurence}});
+    const plan = await Plan.findOne({where: {code: payload.recurrence}});
 
     await Subscription.create({
       customerId: customer.id,
