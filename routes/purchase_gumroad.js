@@ -59,7 +59,7 @@ gumroadRouter.post("/ping", async (req, res) => {
       userId: user.dataValues.id,
     });
 
-    await sendAccessMail({to: payload.email, planName: plan.dataValues.code, accessLink: token});
+    await sendAccessMail({to: user.dataValues.email, planName: plan.dataValues.code, accessLink: token});
 
     return res.status(200);    
   } catch (err) {
