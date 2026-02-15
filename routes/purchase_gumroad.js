@@ -56,7 +56,7 @@ gumroadRouter.post("/ping", async (req, res) => {
     const accesToken = await AccessToken.create({
       tokenHash: sha256(token),
       expiresAt: getEndDate(plan.code),
-      user_id: user.id,
+      user_id: user.dataValues.id,
     });
 
     await sendAccessMail({to: payload.email, planName: plan.dataValues.code, accessLink: token});
