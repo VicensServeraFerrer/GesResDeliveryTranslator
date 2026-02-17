@@ -17,50 +17,77 @@ gumroadRouter.post("/ping", async (req, res) => {
     return res.status(200).json({message: "Wrong product"})
   }
 
+  if(payload.cancelled) {
+    //gestion de cancelación
+    const customer = await Customer.findOne({where: {email: payload.email}});
+
+    const subscription = await Subscription.findOne({where: {customerId: customer.dataValues.id, status: "active"}});
+
+    await Subscription.update(
+        { status: "canceled" },
+        {
+          where: { id: subscription.dataValues.id }
+        }
+      );
+  }
+
   try {
-    const customer = await Customer.create({
+    const isAlredyCustomer = await Customer.findOne({where: {email: payload.email}});
+
+    if(!isAlredyCustomer) {
+      const customer = await Customer.create({
       gumroadSaleId: payload.sale_id,
       email: payload.email,
       userId: null
-    });
+      });
 
-    const user = await User.create({
-      email: payload.email,
-      status: 'active',
-      customerId: customer.dataValues.id
-    });
+      const user = await User.create({
+        email: payload.email,
+        status: 'active',
+        customerId: customer.dataValues.id
+      });
 
-    console.log(user)
-    
-    await Customer.update(
-      { userId: user.dataValues.id },
-      {
-        where: { id: customer.dataValues.id }
-      }
-    );
+      await Customer.update(
+        { userId: user.dataValues.id },
+        {
+          where: { id: customer.dataValues.id }
+        }
+      );
 
-    const plan = await Plan.findOne({where: {code: payload.recurrence}});
+      const plan = await Plan.findOne({where: {code: payload.recurrence}});
 
-    await Subscription.create({
-      customerId: customer.dataValues.id,
-      planId: plan.dataValues.id,
-      paid: true,
-      gumroadSaleId: payload.sale_id,
-      ammount: payload.price,
-      startedAt: new Date(),
-      endsAt: getEndDate(plan.code),
-    });
+      await Subscription.create({
+        customerId: customer.dataValues.id,
+        planId: plan.dataValues.id,
+        paid: true,
+        gumroadSaleId: payload.sale_id,
+        ammount: payload.price,
+        startedAt: new Date(),
+        endsAt: getEndDate(plan.code),
+      });
 
-    const token = create_token()
+      const token = create_token()
 
-    const accesToken = await AccessToken.create({
-      tokenHash: sha256(token),
-      expiresAt: getEndDate(plan.code),
-      userId: user.dataValues.id,
-    });
+      const accesToken = await AccessToken.create({
+        tokenHash: sha256(token),
+        expiresAt: getEndDate(plan.code),
+        userId: user.dataValues.id,
+      });
+      
+      await sendAccessMail({to: user.dataValues.email, planName: plan.dataValues.code, accessLink: token});
+    } else {
+      const customer = await Customer.findOne({where: {email: payload.email}});
 
-    await sendAccessMail({to: user.dataValues.email, planName: plan.dataValues.code, accessLink: token});
+      const subscription = await Subscription.findOne({where: {customerId: customer.dataValues.id, status: "active"}});
 
+      await Subscription.update(
+          { endsAt: getEndDate(payload.recurrence) },
+          {
+            where: { id: subscription.dataValues.id }
+          }
+        );
+    }
+  
     return res.status(200);    
   } catch (err) {
     console.log(err);
