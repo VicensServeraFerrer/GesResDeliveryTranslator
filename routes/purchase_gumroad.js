@@ -112,13 +112,13 @@ gumroadRouter.get("/test/create_token", async (req, res) => {
   const endsAt = new Date(startedAt);
   endsAt.setMonth(endsAt.getMonth() + 1); 
 
-  const createdToken = AccessToken.create({
+  const createdToken = await AccessToken.create({
     userId: process.env.TESTING_USER_ID,
     tokenHash: sha256(token),
     expiresAt: endsAt,
   })
 
-  return res.json(createdToken);
+  return res.status(200);
 });
 
 gumroadRouter.get("/test/send_mail", async (req, res) => {

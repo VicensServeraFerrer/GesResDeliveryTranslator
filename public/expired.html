@@ -6,23 +6,36 @@
   <title>Suscripción caducada</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
-  <div class="card">
-    <h1>Acceso no disponible</h1>
-    <p id="msg">Tu suscripción no está activa o el enlace no es válido.</p>
 
-    <a id="renewBtn" class="btn" href="#" target="_blank" rel="noreferrer">Renovar</a>
-    <div style="height:10px"></div>
-    <a class="btn" href="/">Volver al inicio</a>
-  </div>
+<body>
+  <main class="page page--center">
+    <article class="card card--narrow">
+      <div class="pill pill--warn">Acceso no disponible</div>
+
+      <h1 class="title">No puedes continuar ahora</h1>
+      <p id="msg" class="lead">
+        Tu suscripción no está activa o el enlace no es válido.
+      </p>
+
+      <div class="actions">
+        <a id="renewBtn" class="btn btn--primary" href="#" target="_blank" rel="noreferrer">
+          Renovar suscripción
+        </a>
+        <a class="btn btn--ghost" href="/">
+          Volver al inicio
+        </a>
+      </div>
+
+      <p class="hint">
+        Si crees que es un error, revisa que el token sea correcto o vuelve a intentarlo más tarde.
+      </p>
+    </article>
+
+    <footer class="footer footer--center">
+      <span>© <span id="year"></span> GesRes</span>
+    </footer>
+  </main>
 
   <script src="/js/env.js"></script>
-  <script>
-    document.getElementById("renewBtn").href = window.ENV.GUMROAD_PRODUCT_URL;
-
-    const reason = new URLSearchParams(location.search).get("reason");
-    if (reason === "token") document.getElementById("msg").textContent = "El enlace ha caducado o ya no es válido.";
-    if (reason === "sub") document.getElementById("msg").textContent = "Tu suscripción está caducada. Renueva para continuar.";
-  </script>
 </body>
 </html>

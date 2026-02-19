@@ -10,7 +10,7 @@ import { sequelize } from '../models/index.js'
 
 const tokenRouter = express.Router()
 
-tokenRouter.get("/suscription/status", requireAuthAPI, async (req, res) =>{
+tokenRouter.get("/suscription/status", async (req, res) =>{
     const sub = await isSubscriptionActive(req.userId);
 
     if (!sub) {
@@ -37,6 +37,7 @@ tokenRouter.post("/magic/exchange", async (req, res) =>{
 
     // 4) comprobar suscripción activa (opcional aquí o después)
     const active = await isSubscriptionActive(record.userId);
+
     if (!active) return res.status(403).json({ code: "SUBSCRIPTION_EXPIRED" });
 
     // 5) crear sesión => cookie

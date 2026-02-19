@@ -4,30 +4,54 @@
   <meta charset="UTF-8" />
   <title>Generador de mensajes de pedidos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/css/style.css">
-  
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-  <div class="card">
-    <h1>Generador de mensajes de pedidos</h1>
+  <main class="page page--center">
+    <article class="card card--wide">
 
-    <form id="uploadForm">
-      <label for="file">Archivo de pedidos (.xlsx)</label>
-      <input type="file" id="file" name="file" accept=".xlsx,.xls" required />
+      <h1 class="title">Generador de mensajes de pedidos</h1>
+      <p class="lead">
+        Sube tu plantilla Excel y genera automáticamente los mensajes listos para enviar.
+      </p>
 
-      <label for="headerText">Cabecera del mensaje</label>
-      <textarea
-        id="headerText"
-        name="headerText"
-        placeholder="Hola, os paso el pedido para esta semana:"
-      ></textarea>
+      <form id="uploadForm" class="form">
+        
+        <label class="label" for="file">Archivo de pedidos (.xlsx)</label>
+        <input
+          class="input fileInput"
+          type="file"
+          id="file"
+          name="file"
+          accept=".xlsx,.xls"
+          required
+        />
 
-      <button type="submit">
-        <span>Generar mensajes</span>
-      </button>
-    </form>
-    <script src="/js/form.js"></script>
-    <div id="status" class="status"></div>
-  </div>
+        <label class="label" for="headerText">Cabecera del mensaje</label>
+        <textarea
+          id="headerText"
+          name="headerText"
+          class="textarea"
+          placeholder="Hola, os paso el pedido para esta semana:"
+        ></textarea>
+
+        <button type="submit" class="btn btn--primary btn--block">
+          Generar mensajes
+        </button>
+
+      </form>
+
+      <div id="status" class="status"></div>
+
+    </article>
+
+    <footer class="footer footer--center">
+      <span>© <span id="year"></span> ResGes</span>
+    </footer>
+  </main>
+
+  <script src="/js/form.js"></script>
+
 </body>
 </html>
