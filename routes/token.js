@@ -6,7 +6,6 @@ import { isSubscriptionActive } from '../helpers/check_subs.js'
 import { requireAuthAPI } from '../helpers/authSession.js'
 import { AccessToken, User } from '../models/index.js'
 import { Op } from 'sequelize'
-import { sequelize } from '../models/index.js'
 
 const tokenRouter = express.Router()
 
@@ -48,6 +47,7 @@ tokenRouter.post("/magic/exchange", async (req, res) =>{
     secure: true, // en https
     path: "/",
     });
+
 
     return res.json({ ok: true });
 })

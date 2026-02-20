@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import path from 'path'
 import cookieParser from "cookie-parser";
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,7 +23,7 @@ app.use(cors());
 app.use(cookieParser())
 app.use(express.json())
 
-app.use("/app", autAuth, express.static(path.join(__dirname, "public/app")))
+//app.use("/app", autAuth, express.static(path.join(__dirname, "public/app")))
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/db", initDB);
 app.use("/pedidos", pedidoRouter);

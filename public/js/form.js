@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusEl = document.getElementById("status");
     const button = form.querySelector("button");
 
-    form.addEventListener("submit", async (e) => {
+    form.addEventListener("sumbit", async (e) => {
         e.preventDefault();
         statusEl.textContent = "";
         statusEl.className = "status";
@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("headerText", headerInput.value || "");
 
         button.disabled = true;
-        button.querySelector("span").textContent = "Generando...";
 
         try {
         const resp = await fetch("/pedidos/generar", {

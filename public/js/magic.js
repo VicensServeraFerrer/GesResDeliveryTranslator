@@ -9,7 +9,7 @@
   }
 
   try {
-    statusEl.textContent = "Creando sesión…";
+    //statusEl.textContent = "Creando sesión…";
 
     // Backend recomendado: POST /api/auth/magic/exchange { token }
     const isTokenOk = await apiFetch("/validate/magic/exchange", {
@@ -18,20 +18,10 @@
     });
 
     if(!isTokenOk || isTokenOk.ok !== true){
-      return;
+      location.replace("index.html");
     }
 
-    // Validación extra (opcional): comprobar suscripción
-    // const sub = await apiFetch("/validate/subscription/status", { 
-    //   method: "POST",
-    //   body: JSON.stringify({ token })
-    // });
-    // if (!sub || sub.active !== true) {
-    //   location.replace("/expired.html?reason=sub");
-    //   return;
-    // }
 
-    location.replace("/app/order.html");
   } catch (e) {
     const code = e?.data?.code;
     if (e.status === 403 && code === "SUBSCRIPTION_EXPIRED") {
