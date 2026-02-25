@@ -4,7 +4,7 @@ import { AccessToken, Customer, User, Subscription, Plan } from '../models/index
 import { requireAuthAPI } from '../helpers/authSession.js';
 import { create_token, sha256 } from '../helpers/encrypt.js';
 import { getEndDate } from '../helpers/getEndDate.js';
-import { sendSimpleMessage } from '../mail/mailer.js';
+import { sendMail } from '../mail/mailer.js';
 
 const gumroadRouter = express.Router()
 
@@ -122,7 +122,7 @@ gumroadRouter.get("/test/create_token", async (req, res) => {
 });
 
 gumroadRouter.get("/test/send_mail", async (req, res) => {
-  await sendSimpleMessage();
+  await sendMail();
 
   return res.status(200);
 });

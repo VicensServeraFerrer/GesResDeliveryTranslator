@@ -1,24 +1,25 @@
-import FormData from "form-data"; // form-data v4.0.1
-import Mailgun from "mailgun.js"; // mailgun.js v11.1.0
+import sgMail from '@sendgrid/mail'
+import 'dotenv/config'
 
-export async function sendSimpleMessage() {
-  const mailgun = new Mailgun(FormData);
-  const mg = mailgun.client({
-    username: "api",
-    key: process.env.API_KEY || "API_KEY",
-    // When you have an EU-domain, you must specify the endpoint:
-    // url: "https://api.eu.mailgun.net"
-  });
-  try {
-    const data = await mg.messages.create("sandboxdbc6490fbd6c4b83834f0dff60f47e59.mailgun.org", {
-      from: "Mailgun Sandbox <postmaster@sandboxdbc6490fbd6c4b83834f0dff60f47e59.mailgun.org>",
-      to: ["Vicens Servera Ferrer <vserveraferrer@gmail.com>"],
-      subject: "Hello Vicens Servera Ferrer",
-      text: "Congratulations Vicens Servera Ferrer, you just sent an email with Mailgun! You are truly awesome!",
-    });
+sgMail.setApiKey(process.env.API_KEY)
+// sgMail.setDataResidency('eu'); 
+// uncomment the above line if you are sending mail using a regional EU subuser
 
-    console.log(data); // logs response data
-  } catch (error) {
-    console.log(error); //logs any error
-  }
+const msg = {
+  to: 'vserveraferrer@gmail.com', // Change to your recipient
+  from: 'shop@msg.gesres.es', // Change to your verified sender
+  subject: 'Sending with SendGrid is Fun',
+  text: 'and easy to do anywhere, even with Node.js',
+  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+}
+
+export function sendMail() {
+  sgMail.send(msg)
+  .then(() => {
+    console.log('Email sent')
+    return
+  })
+  .catch((error) => {
+    console.error(error)
+  })
 }
