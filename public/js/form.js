@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusEl = document.getElementById("status");
     const button = form.querySelector("button");
 
-    form.addEventListener("sumbit", async (e) => {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
         statusEl.textContent = "";
         statusEl.className = "status";

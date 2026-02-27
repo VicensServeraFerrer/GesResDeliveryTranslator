@@ -34,6 +34,8 @@ pedidoRouter.post("/generar", upload.single("file"), (req, res) => {
     return res.status(400).json({ error: "No se ha recibido ningún archivo" });
   }
 
+
+  
   const inputPath = req.file.path;
   const outputFilename = "mensajes_pedidos_" + Date.now() + ".docx";
   const outputPath = path.join(outputsDir, outputFilename);
