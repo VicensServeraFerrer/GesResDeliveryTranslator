@@ -6,11 +6,10 @@ import { isSubscriptionActive } from '../helpers/check_subs.js'
 import { requireAuthAPI } from '../helpers/authSession.js'
 import { AccessToken, User } from '../models/index.js'
 import { Op } from 'sequelize'
-import { sequelize } from '../models/index.js'
 
 const tokenRouter = express.Router()
 
-tokenRouter.get("/suscription/status", requireAuthAPI, async (req, res) =>{
+tokenRouter.get("/suscription/status", async (req, res) =>{
     const sub = await isSubscriptionActive(req.userId);
 
     if (!sub) {
@@ -29,14 +28,15 @@ tokenRouter.post("/magic/exchange", async (req, res) =>{
 
     // 3) buscar AccessToken válido + user
     const record = await AccessToken.findOne({
-    where: { tokenHash, revokedAt: null, expiresAt: { [Op.gt]: new Date() } },
-    include: [User],
+        where: { tokenHash, revokedAt: null, expiresAt: { [Op.gt]: new Date() } },
+        include: [User],
     });
 
     if (!record) return res.status(401).json({ code: "TOKEN_INVALID" });
 
     // 4) comprobar suscripción activa (opcional aquí o después)
     const active = await isSubscriptionActive(record.userId);
+
     if (!active) return res.status(403).json({ code: "SUBSCRIPTION_EXPIRED" });
 
     // 5) crear sesión => cookie
@@ -44,9 +44,10 @@ tokenRouter.post("/magic/exchange", async (req, res) =>{
     res.cookie("session", sessionJwt, {
     httpOnly: true,
     sameSite: "lax",
-    secure: true, // en https
+    secure: process.env.NODE_ENV === "production", // en https
     path: "/",
     });
+
 
     return res.json({ ok: true });
 })

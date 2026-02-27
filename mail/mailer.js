@@ -1,13 +1,25 @@
+import sgMail from '@sendgrid/mail'
 import 'dotenv/config'
-import nodemailer from "nodemailer";
 
-export const mailer = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  }
-});
+sgMail.setApiKey(process.env.API_KEY)
+// sgMail.setDataResidency('eu'); 
+// uncomment the above line if you are sending mail using a regional EU subuser
 
+const msg = {
+  to: 'vserveraferrer@gmail.com', // Change to your recipient
+  from: 'shop@msg.gesres.es', // Change to your verified sender
+  subject: 'Sending with SendGrid is Fun',
+  text: 'and easy to do anywhere, even with Node.js',
+  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+}
+
+export function sendMail() {
+  sgMail.send(msg)
+  .then(() => {
+    console.log('Email sent')
+    return
+  })
+  .catch((error) => {
+    console.error(error)
+  })
+}

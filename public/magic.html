@@ -6,15 +6,35 @@
   <title>Accediendo...</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-  <div class="card">
-    <h1>Accediendo…</h1>
-    <p id="status">Validando enlace…</p>
-  </div>
+  <main class="page page--center">
+    <article class="card card--narrow">
+      <div class="spinnerRow" aria-hidden="true">
+        <div class="spinner"></div>
+        <div class="pill">Validación en curso</div>
+      </div>
+
+      <h1 class="title">Accediendo…</h1>
+      <p id="status" class="lead">Validando enlace…</p>
+
+      <div class="progress" aria-hidden="true">
+        <div class="progress__bar"></div>
+      </div>
+
+      <p class="hint">
+        No cierres esta pestaña. En unos segundos te redirigiremos si todo es correcto.
+      </p>
+    </article>
+
+    <footer class="footer footer--center">
+      <span>© <span id="year"></span> GesRes</span>
+    </footer>
+  </main>
+
 
   <script src="/js/env.js"></script>
   <script src="/js/http.js"></script>
   <script src="/js/magic.js"></script>
 </body>
 </html>
-

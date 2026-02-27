@@ -1,15 +1,16 @@
 import 'dotenv/config.js'
-import jwt from "jsonwebtoken";
+import { verifyJwt }  from "./jwt.js";
+import { isAppUser } from './verifyUser.js';
 
 export function requireAuthAPI(req, res, next) {
-  const token = req.cookies?.access;
+  const token = req.cookies?.session;
 
   if (!token) {
     return res.status(401).json({ ok: false, error: "NO_SESSION" });
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = verifyJwt(token);
     req.userId = payload;     
     next();
   } catch (err) {
@@ -18,14 +19,14 @@ export function requireAuthAPI(req, res, next) {
 }
 
 export function autAuth(req, res, next) {
-  const token = req.cookies?.access;
+  const token = req.cookies?.session;
 
   if (!token) {
     return res.redirect(`/index.html`);
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = verifyJwt(token);
 
     if(!isAppUser(payload.userId)){
       return res.redirect(`/index.html`);

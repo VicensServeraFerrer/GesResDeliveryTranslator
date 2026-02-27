@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
         formData.append("headerText", headerInput.value || "");
 
         button.disabled = true;
-        button.querySelector("span").textContent = "Generando...";
 
         try {
         const resp = await fetch("/pedidos/generar", {
