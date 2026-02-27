@@ -13,12 +13,12 @@
     try {
       const response = await apiFetch("/validate/magic/exchange", {
         method: "POST",
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({"token": token }),
       });
 
       if (response && response.ok === true) {
         // Redirige a pedido pasando el token
-        location.replace(`/app/order.html?token=${encodeURIComponent(token)}`);
+        location.replace(`/app/order.html`);
       } else {
         alert("Token incorrecto o expirado");
       }

@@ -23,7 +23,7 @@ app.use(cors());
 app.use(cookieParser())
 app.use(express.json())
 
-//app.use("/app", autAuth, express.static(path.join(__dirname, "public/app")))
+app.use("/app", autAuth, express.static(path.join(__dirname, "public/app")))
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/db", initDB);
 app.use("/pedidos", pedidoRouter);

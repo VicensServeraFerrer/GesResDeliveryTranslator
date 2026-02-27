@@ -28,8 +28,8 @@ tokenRouter.post("/magic/exchange", async (req, res) =>{
 
     // 3) buscar AccessToken válido + user
     const record = await AccessToken.findOne({
-    where: { tokenHash, revokedAt: null, expiresAt: { [Op.gt]: new Date() } },
-    include: [User],
+        where: { tokenHash, revokedAt: null, expiresAt: { [Op.gt]: new Date() } },
+        include: [User],
     });
 
     if (!record) return res.status(401).json({ code: "TOKEN_INVALID" });
@@ -44,7 +44,7 @@ tokenRouter.post("/magic/exchange", async (req, res) =>{
     res.cookie("session", sessionJwt, {
     httpOnly: true,
     sameSite: "lax",
-    secure: true, // en https
+    secure: process.env.NODE_ENV === "production", // en https
     path: "/",
     });
 

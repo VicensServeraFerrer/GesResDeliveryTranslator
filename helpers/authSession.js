@@ -2,7 +2,7 @@ import 'dotenv/config.js'
 import jwt from "jsonwebtoken";
 
 export function requireAuthAPI(req, res, next) {
-  const token = req.cookies?.access;
+  const token = req.cookies?.session;
 
   if (!token) {
     return res.status(401).json({ ok: false, error: "NO_SESSION" });
@@ -18,7 +18,7 @@ export function requireAuthAPI(req, res, next) {
 }
 
 export function autAuth(req, res, next) {
-  const token = req.cookies?.access;
+  const token = req.cookies?.session;
 
   if (!token) {
     return res.redirect(`/index.html`);
