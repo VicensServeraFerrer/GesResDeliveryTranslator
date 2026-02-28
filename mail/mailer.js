@@ -1,6 +1,6 @@
 import sgMail from '@sendgrid/mail'
 import 'dotenv/config'
-import { purchaseEmailTemplate } from './templates/purchaseEmailTemplate'
+import { purchaseEmailTemplate } from './templates/purchaseEmailTemplate.js'
 
 sgMail.setApiKey(process.env.API_KEY)
 // sgMail.setDataResidency('eu'); 
