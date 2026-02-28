@@ -11,15 +11,17 @@ export function sendMailPurchase({to, token, sale_id}) {
     to: to, // Change to your recipient
     from: process.env.SHOP_MAIL, // Change to your verified sender
     subject: 'Acceso a la web',
-    text: '',
     html: purchaseEmailTemplate({accessLink: token, gumroad_sale_id: sale_id}),
   }
+
+  console.log(msg)
+
   sgMail.send(msg)
   .then(() => {
     console.log('Email sent')
     return
   })
-  .catch((error) => {
-    console.error(error)
+  .catch((err) => {
+    console.error("SENDGRID ERROR:", err?.response?.body?.errors || err);
   })
 }

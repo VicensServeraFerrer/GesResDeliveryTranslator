@@ -121,7 +121,7 @@ gumroadRouter.get("/test/create_token", async (req, res) => {
 });
 
 gumroadRouter.get("/test/send_mail", async (req, res) => {
-  await sendMail();
+  await sendMailPurchase({to: 'vserveraferrer@gmail.com', token: '1234', sale_id: '111'});
 
   return res.status(200);
 });

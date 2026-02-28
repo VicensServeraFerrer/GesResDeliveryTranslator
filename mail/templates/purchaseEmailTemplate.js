@@ -37,9 +37,6 @@ export function purchaseEmailTemplate({ accessLink,  gumroad_sale_id }) {
                         </div>
                         </td>
                         <td align="right" style="font-family:Arial,Helvetica,sans-serif;">
-                        <!-- Opcional: logo -->
-                        <img src="logo_gesres.png" width="120" alt="GesRes" style="display:block;border:0;max-width:120px;height:auto;" />
-                        </td>
                     </tr>
                     </table>
                 </td>
@@ -57,27 +54,7 @@ export function purchaseEmailTemplate({ accessLink,  gumroad_sale_id }) {
                     </div>
                 </td>
                 </tr>
-
-                <!-- Botón principal (Acceso) -->
-                <tr>
-                <td style="padding:16px 24px 6px 24px;font-family:Arial,Helvetica,sans-serif;">
-                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
-                    <tr>
-                        <td align="center" bgcolor="#46c0ba" style="border-radius:10px;">
-                        <a href="" target="_blank"
-                            style="display:inline-block;padding:12px 18px;font-size:15px;font-family:Arial,Helvetica,sans-serif;color:#ffffff;text-decoration:none;font-weight:700;">
-                            Acceder ahora
-                        </a>
-                        </td>
-                    </tr>
-                    </table>
-                    <div style="font-size:12px;color:#667085;line-height:1.5;margin-top:10px;">
-                    Si el botón no funciona, copia y pega este enlace en tu navegador:<br />
-                    <span style="word-break:break-all;color:#2563eb;">{{LINK_ACCESO}}</span>
-                    </div>
-                </td>
-                </tr>
-
+                
                 <!-- 2) Qué está recibiendo -->
                 <tr>
                 <td style="padding:18px 24px 4px 24px;font-family:Arial,Helvetica,sans-serif;">
@@ -103,6 +80,22 @@ export function purchaseEmailTemplate({ accessLink,  gumroad_sale_id }) {
                 </td>
                 </tr>
 
+                <!-- Botón principal (Acceso) -->
+                <tr>
+                <td style="padding:16px 24px 6px 24px;font-family:Arial,Helvetica,sans-serif;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td align="center" bgcolor="#22ada6" style="border-radius:10px;">
+                        <a href="http://app.gesres.es" target="_blank"
+                            style="display:inline-block;padding:12px 18px;font-size:15px;font-family:Arial,Helvetica,sans-serif;color:#ffffff;text-decoration:none;font-weight:700;">
+                            Acceder ahora
+                        </a>
+                        </td>
+                    </tr>
+                    </table>
+                </td>
+                </tr>
+
                 <!-- Separador -->
                 <tr>
                 <td style="padding:14px 24px;">
@@ -113,7 +106,7 @@ export function purchaseEmailTemplate({ accessLink,  gumroad_sale_id }) {
                 <!-- 3) Upsell -->
                 <tr>
                 <td style="padding:0 24px 6px 24px;font-family:Arial,Helvetica,sans-serif;">
-                    <div style="font-size:16px;color:#101828;font-weight:800;margin:0 0 8px 0;">
+                    <div style="font-size:16px;color:#f97316;font-weight:800;margin:0 0 8px 0;">
                     Mejora tu compra (recomendado)
                     </div>
 
@@ -123,9 +116,9 @@ export function purchaseEmailTemplate({ accessLink,  gumroad_sale_id }) {
                         <td style="padding:14px;">
                         <div style="font-size:14px;line-height:1.6;color:#7c2d12;">
                             <strong>Rellenamos tu plantilla por ti</strong><br />
-                            Para que el generador de pedidos funcione necesitas tener tu/s plantilla/s rellenada/s con todos los proveedores y referencias. Para ello se requiere tiempo.
+                            Para que el generador de pedidos funcione necesitas tener tu/s plantilla/s rellenada/s con todos los proveedores y referencias. Para ello se requiere de tiempo.
 
-                            Nosotros podemos rellenar tus plantillas por ti, hecha un vistazo a los precios más abajo. 
+                            Nosotros podemos rellenar tus plantillas por ti, hecha un vistazo a los precios pulsando el botón. 
                         </div>
 
                         <div style="margin-top:12px;">
@@ -159,17 +152,6 @@ export function purchaseEmailTemplate({ accessLink,  gumroad_sale_id }) {
                     </div>
                 </td>
                 </tr>
-
-                <!-- Banner final -->
-                <tr>
-                <td style="padding:0;">
-                    <a href="https://app.gesres.es" target="_blank" style="text-decoration:none;">
-                    <img src="banner.png" width="600" alt="200"
-                        style="display:block;border:0;width:100%;max-width:600px;height:auto;" />
-                    </a>
-                </td>
-                </tr>
-
             </table>
 
             <!-- Footer legal -->
