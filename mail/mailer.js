@@ -1,19 +1,19 @@
 import sgMail from '@sendgrid/mail'
 import 'dotenv/config'
+import { purchaseEmailTemplate } from './templates/purchaseEmailTemplate'
 
 sgMail.setApiKey(process.env.API_KEY)
 // sgMail.setDataResidency('eu'); 
 // uncomment the above line if you are sending mail using a regional EU subuser
 
-const msg = {
-  to: 'vserveraferrer@gmail.com', // Change to your recipient
-  from: 'shop@msg.gesres.es', // Change to your verified sender
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-}
-
-export function sendMail() {
+export function sendMailPurchase({to, token, sale_id}) {
+  const msg = {
+    to: to, // Change to your recipient
+    from: process.env.SHOP_MAIL, // Change to your verified sender
+    subject: 'Acceso a la web',
+    text: '',
+    html: purchaseEmailTemplate({accessLink: token, gumroad_sale_id: sale_id}),
+  }
   sgMail.send(msg)
   .then(() => {
     console.log('Email sent')

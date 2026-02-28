@@ -4,7 +4,7 @@ import { AccessToken, Customer, User, Subscription, Plan } from '../models/index
 import { requireAuthAPI } from '../helpers/authSession.js';
 import { create_token, sha256 } from '../helpers/encrypt.js';
 import { getEndDate } from '../helpers/getEndDate.js';
-import { sendMail } from '../mail/mailer.js';
+import { sendMailPurchase } from '../mail/mailer.js';
 
 const gumroadRouter = express.Router()
 
@@ -15,20 +15,6 @@ gumroadRouter.post("/ping", async (req, res) => {
 
   if(payload.permalink != "traductor") {
     return res.status(200).json({message: "Wrong product"})
-  }
-
-  if(payload.cancelled) {
-    //gestion de cancelación
-    const customer = await Customer.findOne({where: {email: payload.email}});
-
-    const subscription = await Subscription.findOne({where: {customerId: customer.dataValues.id, status: "active"}});
-
-    await Subscription.update(
-        { status: "canceled" },
-        {
-          where: { id: subscription.dataValues.id }
-        }
-      );
   }
 
   try {
@@ -68,13 +54,14 @@ gumroadRouter.post("/ping", async (req, res) => {
 
       const token = create_token()
 
-      const accesToken = await AccessToken.create({
+      await AccessToken.create({
         tokenHash: sha256(token),
         expiresAt: getEndDate(plan.code),
         userId: user.dataValues.id,
       });
       
-      await sendAccessMail({to: user.dataValues.email, planName: plan.dataValues.code, accessLink: token});
+      
+      sendMailPurchase({to: payload.email, token: token, sale_id: payload.sale_id});
     } else {
       const customer = await Customer.findOne({where: {email: payload.email}});
 
@@ -92,17 +79,29 @@ gumroadRouter.post("/ping", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  // Ejemplos de campos que suelen venir:
-  // payload.email, payload.product_id, payload.sale_id, payload.license_key, payload.url_params, etc.
-  // (Depende del tipo de producto/venta)
-  console.log("GUMROAD PING:", payload);
+});
 
-  // 1) Identifica al usuario interno (idealmente por payload.url_params.user_id)
-  // 2) Upsert Customer
-  // 3) Crea/actualiza Subscription (activa)
-  // 4) Guarda sale_id como idempotency key para no duplicar
+gumroadRouter.post("/cancellation", async (req, res) => {
+    //gestion de cancelación
+    const payload = req.body;
 
-  res.status(200).send("ok");
+    try {
+      const customer = await Customer.findOne({where: {email: payload.user_email}});
+
+      if(!customer) return res.status(403).message("User not in database")
+
+      const subscription = await Subscription.findOne({where: {customerId: customer.dataValues.id, status: "active"}});
+
+      await Subscription.update(
+        { status: "canceled" },
+        {
+          where: { id: subscription.dataValues.id }
+        }
+      );
+    } catch (err) {
+
+    }
+    
 });
 
 gumroadRouter.get("/test/create_token", async (req, res) => {
