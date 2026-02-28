@@ -4,7 +4,7 @@ import { AccessToken, Customer, User, Subscription, Plan } from '../models/index
 import { requireAuthAPI } from '../helpers/authSession.js';
 import { create_token, sha256 } from '../helpers/encrypt.js';
 import { getEndDate } from '../helpers/getEndDate.js';
-import { sendMailPurchase } from '../mail/mailer.js';
+import { sendMailPurchase, sendMailRellenamos, sendMailAvisoAdmin } from '../mail/mailer.js';
 
 const gumroadRouter = express.Router()
 
@@ -13,8 +13,14 @@ gumroadRouter.use(express.urlencoded({ extended: false }));
 gumroadRouter.post("/ping", async (req, res) => {
   const payload = req.body;
 
-  if(payload.permalink != "traductor") {
+  if(payload.permalink != "traductor" || payload.permalink != "rellenamos_tu_plantilla") {
     return res.status(200).json({message: "Wrong product"})
+  }
+
+  if(payload.permalink != "rellenamos_tu_plantilla") {
+    sendMailRellenamos({to: payload.email});
+    sendMailAvisoAdmin({customer: payload.email})
+    return res.status(200)
   }
 
   try {
@@ -121,7 +127,7 @@ gumroadRouter.get("/test/create_token", async (req, res) => {
 });
 
 gumroadRouter.get("/test/send_mail", async (req, res) => {
-  await sendMailPurchase({to: 'vserveraferrer@gmail.com', token: '1234', sale_id: '111'});
+  await sendMailRellenamos({to: 'vserveraferrer@gmail.com'});
 
   return res.status(200);
 });
