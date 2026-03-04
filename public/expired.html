@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suscripción caducada</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+  <main class="page page--center">
+    <article class="card card--narrow">
+      <div class="pill pill--warn">Acceso no disponible</div>
+
+      <h1 class="title">No puedes continuar ahora</h1>
+      <p id="msg" class="lead">
+        Tu suscripción no está activa o el enlace no es válido.
+      </p>
+
+      <div class="actions">
+        <a id="renewBtn" class="btn btn--primary" href="#" target="_blank" rel="noreferrer">
+          Renovar suscripción
+        </a>
+        <a class="btn btn--ghost" href="/">
+          Volver al inicio
+        </a>
+      </div>
+
+      <p class="hint">
+        Si crees que es un error, revisa que el token sea correcto o vuelve a intentarlo más tarde.
+      </p>
+    </article>
+
+    <footer class="footer footer--center">
+      <span>© <span id="year"></span> GesRes</span>
+    </footer>
+  </main>
+
+  <script src="/js/env.js"></script>
+</body>
+</html>
