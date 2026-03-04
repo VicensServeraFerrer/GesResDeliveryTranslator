@@ -1,18 +1,17 @@
 import sgMail from '@sendgrid/mail'
 import 'dotenv/config'
-import { purchaseEmailTemplate } from './templates/purchaseEmailTemplate.js'
+import { purchaseService } from './templates/purchaseService.js'
 import { rellenamosEmailTemplate } from './templates/rellenamosEmailTemplate.js'
+import { purchaseEmailTemplateYearly } from './templates/purchaseFreeFill.js'
 
 sgMail.setApiKey(process.env.API_KEY)
-// sgMail.setDataResidency('eu'); 
-// uncomment the above line if you are sending mail using a regional EU subuser
 
 export function sendMailPurchase({to, token, sale_id}) {
   const msg = {
-    to: to, // Change to your recipient
-    from: process.env.SHOP_MAIL, // Change to your verified sender
+    to: to, 
+    from: process.env.SHOP_MAIL,
     subject: 'Acceso a la web',
-    html: purchaseEmailTemplate({accessLink: token, gumroad_sale_id: sale_id}),
+    html: purchaseService({accessLink: token, gumroad_sale_id: sale_id}),
   }
 
   sgMail.send(msg)
@@ -26,8 +25,8 @@ export function sendMailPurchase({to, token, sale_id}) {
 
 export function sendMailRellenamos({to}) {
   const msg = {
-      to: to, // Change to your recipient
-      from: process.env.NOREPLY_MAIL, // Change to your verified sender
+      to: to, 
+      from: process.env.NOREPLY_MAIL, 
       subject: 'Información sobre relleno de plantillas',
       html: rellenamosEmailTemplate(),
     }
@@ -43,10 +42,28 @@ export function sendMailRellenamos({to}) {
 
 export function sendMailAvisoAdmin({customer}) {
   const msg = {
-      to: process.env.INFO_MAIL, // Change to your recipient
-      from: process.env.NOREPLY_MAIL, // Change to your verified sender
-      subject: 'Información sobre relleno de plantillas',
+      to: process.env.INFO_MAIL, 
+      from: process.env.NOREPLY_MAIL, 
+      subject: 'New customer!!!!',
       text: `${customer} vol que li omplis plantilles. Revisa-ho!`,
+    }
+
+    sgMail.send(msg)
+    .then(() => {
+      return
+    })
+    .catch((err) => {
+      console.error("SENDGRID ERROR:", err?.response?.body?.errors || err);
+    })
+}
+
+
+export function sendMailFreeFill({to}) {
+  const msg = {
+      to: to, 
+      from: process.env.NOREPLY_MAIL, 
+      subject: 'Información sobre relleno de plantillas GRATIS',
+      html: purchaseEmailTemplateYearly(),
     }
 
     sgMail.send(msg)

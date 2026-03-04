@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-export function purchaseEmailTemplate({ accessLink,  gumroad_sale_id }) {
+export function purchaseService({ accessLink,  gumroad_sale_id }) {
     return `
     <!doctype html>
     <html lang="es">

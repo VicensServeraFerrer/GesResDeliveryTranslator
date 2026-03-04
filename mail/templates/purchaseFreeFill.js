@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-export function rellenamosEmailTemplate() {
+export function purchaseFreeFill() {
     return `
     <!doctype html>
 <html lang="es">
@@ -31,7 +31,7 @@ export function rellenamosEmailTemplate() {
     Hola,
   </h2>
   <p style="margin:0;font-size:15px;color:#444;line-height:1.6;">
-    Gracias por confiar en nosotros. Para poder activar correctamente tu servicio,
+    Gracias por confiar en nosotros comprando el plan anual! Para poder rellenar gratuitamente 2 de tus plantillas
     contesta a este correo con la siguiente información.
   </p>
 </td>
