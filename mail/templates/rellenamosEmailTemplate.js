@@ -32,7 +32,7 @@ export function rellenamosEmailTemplate() {
   </h2>
   <p style="margin:0;font-size:15px;color:#444;line-height:1.6;">
     Gracias por confiar en nosotros. Para poder activar correctamente tu servicio,
-    envia a ${process.env.INFO_MAIL} con la siguiente información.
+    envia a ${process.env.INFO_MAIL} la siguiente información.
   </p>
 </td>
 </tr>
