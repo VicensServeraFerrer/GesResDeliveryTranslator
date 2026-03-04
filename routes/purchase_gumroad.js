@@ -4,6 +4,7 @@ import { AccessToken, Customer, User, Subscription, Plan } from '../models/index
 import { create_token, sha256 } from '../helpers/encrypt.js';
 import { getEndDate } from '../helpers/getEndDate.js';
 import { sendMailPurchase, sendMailRellenamos, sendMailAvisoAdmin, sendMailFreeFill } from '../mail/mailer.js';
+import { and } from 'sequelize';
 
 const gumroadRouter = express.Router()
 
@@ -12,7 +13,8 @@ gumroadRouter.use(express.urlencoded({ extended: false }));
 gumroadRouter.post("/ping", async (req, res) => {
   const payload = req.body;
 
-  if(payload.permalink != "traductor" || payload.permalink != "rellenamos_tu_plantilla") {
+
+  if(payload.permalink != "traductor" & payload.permalink != "rellenamos_tu_plantilla") {
     return res.status(200).json({message: "Wrong product"})
   }
 
