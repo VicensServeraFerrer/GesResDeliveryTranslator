@@ -71,7 +71,7 @@ export function purchaseService({ accessLink,  gumroad_sale_id }) {
                             <li><strong>Producto:</strong> Gestor de mensajes de pedido</li>
                             <li><strong>Plantilla:</strong> ${process.env.LINK_PLANTILLA_PEDIDOS} </li>
                             <li><strong>Contraseña acceso web:</strong> ${accessLink}</li>
-                            <li><strong>Guia:</strong> {{INCLUYE}} (ej. actualizaciones, guía, ejemplos)</li>
+                            <li><strong>Guia:</strong> ${process.env.LINK_GUIA_PEDIDOS}</li>
                             </ul>
                         </div>
                         </td>
