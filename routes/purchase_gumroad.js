@@ -18,7 +18,7 @@ gumroadRouter.post("/ping", async (req, res) => {
     return res.status(200).json({message: "Wrong product"})
   }
 
-  if(payload.permalink != "rellenamos_tu_plantilla") {
+  if(payload.permalink == "rellenamos_tu_plantilla") {
     sendMailRellenamos({to: payload.email});
     sendMailAvisoAdmin({customer: payload.email})
     return res.status(200)
