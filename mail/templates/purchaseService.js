@@ -70,7 +70,7 @@ export function purchaseService({ accessLink,  gumroad_sale_id }) {
                             <ul style="margin:0;padding-left:18px;">
                             <li><strong>Producto:</strong> Gestor de mensajes de pedido</li>
                             <li><strong>Plantilla:</strong> ${process.env.LINK_PLANTILLA_PEDIDOS} </li>
-                            <li><strong>Contrasenya acceso web:</strong> ${accessLink}</li>
+                            <li><strong>Contraseña acceso web:</strong> ${accessLink}</li>
                             <li><strong>Guia:</strong> {{INCLUYE}} (ej. actualizaciones, guía, ejemplos)</li>
                             </ul>
                         </div>
@@ -144,11 +144,14 @@ export function purchaseService({ accessLink,  gumroad_sale_id }) {
                 <td style="padding:18px 24px 22px 24px;font-family:Arial,Helvetica,sans-serif;">
                     <div style="font-size:14px;line-height:1.7;color:#344054;">
                     Gracias de nuevo por confiar en <strong>GesRes</strong>.<br />
-                    Si necesitas ayuda para ponerlo en marcha, contesta a este correo y te echamos una mano.
+                    Si necesitas ayuda para ponerlo en marcha, envia un correo a ${process.env.INFO_MAIL} y te ayudamos.
                     </div>
 
                     <div style="margin-top:14px;font-size:14px;line-height:1.7;color:#344054;">
-                    Un saludo,<br />
+                    Un saludo, 
+                    
+                    Equipo de GesRes
+                    <br />
                     </div>
                 </td>
                 </tr>

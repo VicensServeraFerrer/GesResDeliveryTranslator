@@ -114,7 +114,7 @@ gumroadRouter.post("/cancellation", async (req, res) => {
 
 
 gumroadRouter.get("/test/send_mail", async (req, res) => {
-  await sendMailRellenamos({to: 'vserveraferrer@gmail.com'});
+  await sendMailPurchase({to: "vserveraferrer@gmail.com", token: "Contraseña de prueba", sale_id: "1"});
 
   return res.status(200);
 });

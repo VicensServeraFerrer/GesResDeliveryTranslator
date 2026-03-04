@@ -2,7 +2,7 @@ import sgMail from '@sendgrid/mail'
 import 'dotenv/config'
 import { purchaseService } from './templates/purchaseService.js'
 import { rellenamosEmailTemplate } from './templates/rellenamosEmailTemplate.js'
-import { purchaseEmailTemplateYearly } from './templates/purchaseFreeFill.js'
+import { purchaseFreeFill } from './templates/purchaseFreeFill.js'
 
 sgMail.setApiKey(process.env.API_KEY)
 
@@ -63,7 +63,7 @@ export function sendMailFreeFill({to}) {
       to: to, 
       from: process.env.NOREPLY_MAIL, 
       subject: 'Información sobre relleno de plantillas GRATIS',
-      html: purchaseEmailTemplateYearly(),
+      html: purchaseFreeFill(),
     }
 
     sgMail.send(msg)

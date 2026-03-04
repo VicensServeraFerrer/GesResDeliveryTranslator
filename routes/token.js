@@ -3,7 +3,6 @@ import express from "express"
 import { signJwt } from '../helpers/jwt.js'
 import { sha256 } from '../helpers/encrypt.js'
 import { isSubscriptionActive } from '../helpers/check_subs.js'
-import { requireAuthAPI } from '../helpers/authSession.js'
 import { AccessToken, User } from '../models/index.js'
 import { Op } from 'sequelize'
 
