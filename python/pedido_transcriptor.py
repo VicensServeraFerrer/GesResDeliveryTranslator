@@ -3,6 +3,7 @@ import pandas as pd
 from utils.add_hyperlink import add_hyperlink
 from urllib.parse import quote
 from docx import Document
+import re
 
 def generate_messages(
     input_excel,
@@ -62,8 +63,10 @@ def generate_messages(
         doc.add_paragraph(mensaje_completo)
 
         # Link de WhatsApp como hipervínculo (si hay teléfono)
-        if telefono:
+        if telefono and telefono != "" and telefono != "nan":
+            print(telefono)
             encoded = quote(mensaje_completo)
+            telefono = re.sub(r"\D", "", telefono)
             wa_link = f"https://wa.me/{telefono}?text={encoded}"
 
             p = doc.add_paragraph()
